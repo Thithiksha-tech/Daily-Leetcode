@@ -12,31 +12,32 @@
 12            g.get(v).add(u);
 13        }
 14        int[] color=new int[n+1];
-15        for(int i=1;i<=n;i++){
-16            //component
-17            if(color[i]!=0){
-18                continue;
-19            }
-20            Queue<Integer> q=new LinkedList<>();
-21            color[i]=1;
-22            q.add(i);
-23            while(!q.isEmpty()){
-24                int node=q.poll();
-25                for(int nei:g.get(node)){
-26                    if(color[nei]==0){
-27                        color[nei]=3-color[node];
-28
-29                        q.add(nei);
-30
-31                    }
-32                    else if(color[nei]==color[node]){
-33                        return false;
-34
-35                    }
-36                }
-37            }
-38        }
-39        return true;
-40        
-41    }
-42}
+15        //BFS FOR EVERY
+16        for(int i=1;i<=n;i++){
+17            //component
+18            if(color[i]!=0){
+19                continue;
+20            }
+21            Queue<Integer> q=new LinkedList<>();
+22            color[i]=1;
+23            q.add(i);
+24            while(!q.isEmpty()){
+25                int node=q.poll();
+26                for(int nei:g.get(node)){
+27                    if(color[nei]==0){
+28                        color[nei]=3-color[node];
+29
+30                        q.add(nei);
+31
+32                    }
+33                    else if(color[nei]==color[node]){
+34                        return false;
+35
+36                    }
+37                }
+38            }
+39        }
+40        return true;
+41        
+42    }
+43}
