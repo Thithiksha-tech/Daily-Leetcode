@@ -16,23 +16,24 @@
 16        int mintrios=Integer.MAX_VALUE;
 17        for(int i=1;i<=n;i++){
 18            for(int j=i+1;j<=n;j++){
-19                for(int k=j+1;k<=n;k++){
-20                    int degree=0;
-21                    if(g[i][j]!=1){
-22                        continue;
-23                    }
-24                    if(g[i][j]==1&&g[j][k]==1&&g[i][k]==1){
-25                        degree=deg[i]+deg[j]+deg[k]-6;
-26                        mintrios=Math.min(mintrios,degree);
-27
-28                    }
-29                }
-30            }
-31        }
-32        if(mintrios==Integer.MAX_VALUE){
-33            return -1;
-34        }
-35        return mintrios;
-36        
-37    }
-38}
+19                if(g[i][j]!=1){
+20                    continue;
+21                }
+22                for(int k=j+1;k<=n;k++){
+23                    int degree=0;
+24                    
+25                    if(g[i][j]==1&&g[j][k]==1&&g[i][k]==1){
+26                        degree=deg[i]+deg[j]+deg[k]-6;
+27                        mintrios=Math.min(mintrios,degree);
+28
+29                    }
+30                }
+31            }
+32        }
+33        if(mintrios==Integer.MAX_VALUE){
+34            return -1;
+35        }
+36        return mintrios;
+37        
+38    }
+39}
