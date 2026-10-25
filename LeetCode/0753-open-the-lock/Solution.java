@@ -1,54 +1,47 @@
 class Solution {
-    
-    public static int bfs(HashSet<String> dead,String target,Queue<String> q,HashSet<String> vis){
+    public int openLock(String[] deadends, String target) {
+        Queue<String> q=new LinkedList<>();
+        Set<String> vis=new HashSet<>();
+        Set<String> dead=new HashSet<>(Arrays.asList(deadends));
+        String st="0000";
+        if(dead.contains(st)){
+            return -1;
+        }
+        q.add("0000");
+        vis.add("0000");
         int steps=0;
+
         while(!q.isEmpty()){
             int size=q.size();
-
-            for(int k=0;k<size;k++){
-                String cur=q.poll();
-                if(cur.equals(target)){
+            for(int i=0;i<size;i++){
+                String str=q.poll();
+                if(str.equals(target)){
                     return steps;
                 }
-                for(int i=0;i<4;i++){
-                    char[] arr=cur.toCharArray();
-                    arr[i]=(char)((arr[i]-'0'+1)%10+'0');
+                
+                for(int j=0;j<4;j++){
+                    char[] arr=str.toCharArray();
+                    arr[j]=(char)((arr[j]-'0'+1)%10+'0');
                     String next=new String(arr);
-                    if(!dead.contains(next)&&!vis.contains(next)){
+                    if(!vis.contains(next)&&!dead.contains(next)){
                         q.add(next);
                         vis.add(next);
+
                     }
-                    arr=cur.toCharArray();
-                     arr[i]=(char)((arr[i]-'0'+9)%10+'0');
-                    next=new String(arr);
-                    if(!dead.contains(next)&&!vis.contains(next)){
-                        q.add(next);
-                        vis.add(next);
+                    arr=str.toCharArray();
+                    arr[j]=(char)((arr[j]-'0'+9)%10+'0');
+                    String prev=new String(arr);
+                    if(!vis.contains(prev)&&!dead.contains(prev)){
+                        q.add(prev);
+                        vis.add(prev);
+
                     }
-                    
 
                 }
             }
             steps++;
         }
         return -1;
-    }
-    public int openLock(String[] deadends, String target) {
-        
-        Queue<String> q=new LinkedList<>();
-        HashSet<String> vis=new HashSet<>();
-        HashSet<String> dead=new HashSet<>();
-        for(String s:deadends){
-            dead.add(s);
-        }
-        String st="0000";
-        if(dead.contains("0000")){
-            return -1;
-        }
-
-        q.add(st);
-        vis.add(st);
-        return bfs(dead,target,q,vis);
         
     }
 }
