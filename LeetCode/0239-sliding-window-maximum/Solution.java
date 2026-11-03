@@ -1,27 +1,35 @@
 class Solution {
     public int[] maxSlidingWindow(int[] nums, int k) {
-        int[] ans=new int[nums.length-k+1];
-        Deque<Integer> dq=new LinkedList<>();
+        if(nums.length==0||k==0){
+            return new int[0];
+        }
+        Deque<Integer> dp=new LinkedList<>();
         for(int i=0;i<k;i++){
-            while(!dq.isEmpty()&&nums[dq.peekLast()]<nums[i]){//remeber
-                dq.pollLast();
+            while(!dp.isEmpty()&&nums[dp.peekLast()]<nums[i]){
+                dp.pollLast();
             }
-            dq.offerLast(i);
+        
+                dp.offerLast(i);
+            
         }
-      
         int ind=0;
+        int[] ans=new int[nums.length-k+1];
         for(int i=k;i<nums.length;i++){
-            ans[ind++]=nums[dq.peekFirst()];
-            if(!dq.isEmpty()&&dq.peekFirst()<=i-k){
-                dq.pollFirst();
+            ans[ind++]=nums[dp.peekFirst()];
+            //valid window
+            if(!dp.isEmpty()&&dp.peekFirst()<=i-k){
+                dp.pollFirst();
             }
-            while(!dq.isEmpty()&&nums[dq.peekLast()]<nums[i]){
-                dq.pollLast();
+            //checking for useful elements if small elememts exist pop
+            while(!dp.isEmpty()&&nums[dp.peekLast()]<nums[i]){
+                dp.pollLast();
             }
-            dq.offerLast(i);
+            
+            dp.offerLast(i);
         }
-        ans[ind++]=nums[dq.peekFirst()];
+        ans[ind++]=nums[dp.peekFirst()];
         return ans;
+        
         
     }
 }
