@@ -1,30 +1,41 @@
 class Solution {
     public long maximumSubarraySum(int[] nums, int k) {
-        int maxlen=0;
-        long len=0;
-        long max=0;
-        int l=0;
-        for(int i=0;i<nums.length;i++){
-            maxlen=Math.max(maxlen,nums[i]);
+        Map<Integer, Integer> map = new HashMap<>();
+        long sum = 0;
+        long maxSum = 0;
+
+        // Build the first window of size k
+        for (int i = 0; i < k; i++) {
+            map.put(nums[i], map.getOrDefault(nums[i], 0) + 1);
+            sum += nums[i];
         }
-        int[] set=new int[maxlen+1];
-    
-        for(int r=0;r<nums.length;r++){
-            while(set[nums[r]]>=1){
-                len-=nums[l];
-                set[nums[l]]--;
-                l++;
+
+        if (map.size() == k) {
+            maxSum = sum;
+        }
+
+        // Slide the window across the array
+        for (int i = k; i < nums.length; i++) {
+            // Add incoming element
+            int inVal = nums[i];
+            map.put(inVal, map.getOrDefault(inVal, 0) + 1);
+            sum += inVal;
+
+            // Remove outgoing element
+            int outVal = nums[i - k];
+            map.put(outVal, map.get(outVal) - 1);
+            sum -= outVal;
+
+            if (map.get(outVal) == 0) {
+                map.remove(outVal);
             }
-            len+=nums[r];
-            set[nums[r]]++;
-            if(k==r-l+1){
-                max=Math.max(max,len);
-                len-=nums[l];
-                set[nums[l]]--;
-                l++;
+
+            // Check if current window has all distinct elements
+            if (map.size() == k) {
+                maxSum = Math.max(maxSum, sum);
             }
         }
-        return max;
-        
+
+        return maxSum;
     }
 }
