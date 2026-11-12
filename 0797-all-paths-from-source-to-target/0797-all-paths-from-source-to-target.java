@@ -1,10 +1,12 @@
 class Solution {
     public static void dfs(int node,ArrayList<Integer>[] a,boolean[] vis,int n,ArrayList<Integer> path,List<List<Integer>> ans){
-        path.add(node);
         if(node==n-1){
+            path.add(node);
            
             ans.add(new ArrayList<>(path));
+            path.remove(path.size()-1);
         }
+        path.add(node);
         vis[node]=true;
         
         for(int nei:a[node]){
