@@ -1,23 +1,39 @@
 class Solution {
-    public List<List<Integer>> allPathsSourceTarget(int[][] g) {
-        List<List<Integer>> res=new ArrayList<>();
-        Queue<List<Integer>> q=new LinkedList<>();
-        List<Integer> st=new ArrayList();
-        st.add(0);
-        q.add(st);
-        while(!q.isEmpty()){
-            List<Integer> path=q.poll();
-            int node=path.get(path.size()-1);
-            if(node==g.length-1){
-                res.add(path);
-                continue;
+    public static void dfs(int node,ArrayList<Integer>[] a,boolean[] vis,int n,ArrayList<Integer> path,List<List<Integer>> ans){
+        path.add(node);
+        if(node==n-1){
+           
+            ans.add(new ArrayList<>(path));
+        }
+        vis[node]=true;
+        
+        for(int nei:a[node]){
+            if(!vis[nei]){
+                dfs(nei,a,vis,n,path,ans);
             }
-            for(int nei:g[node]){
-                List<Integer> newpath=new ArrayList<>(path);
-                newpath.add(nei);
-                q.add(newpath);
+            
+        }
+        path.remove(path.size()-1);
+        vis[node]=false;
+
+    }
+    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
+        List<List<Integer>> ans=new ArrayList<>();
+        int n=graph.length;
+        @SuppressWarnings("unchecked")
+        ArrayList<Integer>[] a=new ArrayList[n+1];
+        for(int i=0;i<n;i++){
+            a[i]=new ArrayList<>();
+        }
+        for(int i=0;i<n;i++){
+            for(int x:graph[i]){
+                a[i].add(x);
             }
         }
-        return res;
+        boolean[] vis=new boolean[graph.length];
+        dfs(0,a,vis,n,new ArrayList<>(),ans);
+        return ans;
+
+        
     }
 }
