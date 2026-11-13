@@ -1,22 +1,20 @@
 class Solution {
-    public static boolean bfs(int s,int d,int parent,Queue<Integer> q,ArrayList<Integer>[] g,int n,boolean[] vis){
-        q.add(s);
+    public static boolean dfs(int s,int d,ArrayList<Integer>[] g,int n,boolean[] vis){
         vis[s]=true;
-        while(!q.isEmpty()){
-            int node=q.poll();
-            if(node==d){
-                return true;
+        if(s==d){
+            return true;
+        }
+        for(int nei:g[s]){
+            if(!vis[nei]){ 
+                if(dfs(nei,d,g,n,vis)){
+                    return true;
+                }
 
             }
-            for(int nei:g[node]){
-                if(!vis[nei]){
-                    vis[nei]=true;
-                    q.add(nei);
-                }
-            }
-           
         }
         return false;
+        
+        
     }
     public boolean validPath(int n, int[][] e, int s, int d) {
         Queue<Integer> q=new LinkedList<>();
@@ -35,7 +33,7 @@ class Solution {
         }
      
         boolean[] vis=new boolean[n];
-        return bfs(s,d,-1,q,g,n,vis);
+        return dfs(s,d,g,n,vis);
 
         
     }
