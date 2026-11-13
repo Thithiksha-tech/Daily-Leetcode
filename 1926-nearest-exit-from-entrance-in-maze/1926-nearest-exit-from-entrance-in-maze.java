@@ -1,41 +1,40 @@
 class Solution {
     static int[] dx={-1,1,0,0};
     static int[] dy={0,0,-1,1};
-    public int nearestExit(char[][] maze, int[] et) {
-        //use dist array
-        int x=et[0];
-        int y=et[1];
-        int n=maze.length;
-        int m=maze[0].length;
-        boolean[][] vis=new boolean[n][m];
+    public static int bfs(char[][] grid,int x,int y,int n,int m,boolean[][] vis,Queue<int[]> q,int[][] dist,int[] e){
         vis[x][y]=true;
-        Queue<int[]> q=new LinkedList<>();
         q.add(new int[]{x,y});
-      
-        int[][] dist=new int[n][m];
+        dist[0][0]=0;
         while(!q.isEmpty()){
-            int[] node=q.poll();
-            int r=node[0];
-            int c=node[1];
-            if((r==0)||(c==0)||(r==n-1)||(c==m-1)){
-                if(maze[r][c]=='.'&&(r!=x||c!=y)){
-                    return dist[r][c];
-                }
+            int[] cur=q.poll();
+            int sx=cur[0];
+            int sy=cur[1];
+
+            if((sx!=e[0]||sy!=e[1])&&(sx==0||sx==n-1||sy==0||sy==m-1)){
+                return dist[sx][sy];
             }
             for(int i=0;i<4;i++){
-                int nx=r+dx[i];
-                int ny=c+dy[i];
-                if(nx>=0&&nx<n&&ny>=0&&ny<m){
-                    if(maze[nx][ny]=='.'&&!(vis[nx][ny])){
-                        dist[nx][ny]=dist[r][c]+1;
-                        q.add(new int[]{nx,ny});
-                        vis[nx][ny]=true;
-                        
-                    }
-                    
+                int nx=dx[i]+sx;
+                int ny=dy[i]+sy;
+                if(nx>=0&&nx<n&&ny>=0&&ny<m&&!vis[nx][ny]&&grid[nx][ny]!='+'){
+                    q.add(new int[]{nx,ny});
+                    vis[nx][ny]=true;
+                    dist[nx][ny]=dist[sx][sy]+1;
                 }
             }
         }
-        return -1; 
+        return -1;
+    }
+    public int nearestExit(char[][] grid, int[] e) {
+        int n=grid.length;
+        int m=grid[0].length;
+
+        boolean[][] vis=new boolean[n+1][m+1];
+        int[][] dist=new int[n+1][m+1];
+        Queue<int[]> q=new LinkedList<>();
+        int x=e[0];
+        int y=e[1];
+        return bfs(grid,x,y,n,m,vis,q,dist,e);
+        
     }
 }
