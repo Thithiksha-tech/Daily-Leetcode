@@ -1,11 +1,16 @@
 class Solution {
     public boolean canFinish(int n, int[][] pre) {
-        int[][] g=new int[n][n];
+        @SuppressWarnings("unchecked")
+        ArrayList<Integer>[] g=new ArrayList[n+1];
+        for(int i=0;i<n;i++){
+            g[i]=new ArrayList<>();
+
+        }
         int[] indeg=new int[n];
         for(int i=0;i<pre.length;i++){
             int u=pre[i][0];
             int v=pre[i][1];
-            g[v][u]=1;
+            g[v].add(u);
             indeg[u]++;
         }
         Queue<Integer> q=new LinkedList<>();
@@ -24,13 +29,11 @@ class Solution {
         while(!q.isEmpty()){
             int cur=q.poll();
             
-            for(int i=0;i<n;i++){
-                if(g[cur][i]==1){
-                    indeg[i]--;
-                }
-                if(!vis[i]&&indeg[i]==0){
-                    q.add(i);
-                    vis[i]=true;
+            for(int x:g[cur]){
+                indeg[x]--;
+                if(!vis[x]&&indeg[x]==0){
+                    q.add(x);
+                    vis[x]=true;
                     
                 }
                 
