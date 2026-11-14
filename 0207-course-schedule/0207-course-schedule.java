@@ -23,12 +23,11 @@ class Solution {
         
         while(!q.isEmpty()){
             int cur=q.poll();
+            
             for(int i=0;i<n;i++){
                 if(g[cur][i]==1){
                     indeg[i]--;
                 }
-            }
-            for(int i=0;i<n;i++){
                 if(!vis[i]&&indeg[i]==0){
                     q.add(i);
                     vis[i]=true;
