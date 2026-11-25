@@ -19,9 +19,9 @@ class Solution {
             if(x==n-1&&y==m-1){
                 return eff;
             }
-            if(eff>dist[x][y]){
-                continue;
-            }
+            // if(eff>dist[x][y]){
+            //     continue;
+            // }
             for(int i=0;i<4;i++){
                 int nx=x+dx[i];
                 int ny=y+dy[i];
